@@ -14,7 +14,9 @@
 #include <string.h>
 #include <getopt.h>
 #include <stdlib.h>
-#include "/includes/matrix.h"
+
+//custom headers
+#include "../includes/matrix.h"
 
 //function prototypes
 void print_mac_sequence(int* subarray, int mac_count);
@@ -52,6 +54,7 @@ int main(int argc, char* argv[]){
 
 	/*DEBUG CODE to ensure both matrices are populated*/
 	//DEBUG START ------------------------------------------------------------
+	printf("data matrix\r\n");
 	for(int a = 0; a < matrix_t1->size1; a++){
 		for(int b = 0; b < matrix_t1->size2; b++){
 			int c = gsl_matrix_get(matrix_t1, a, b);
@@ -60,7 +63,7 @@ int main(int argc, char* argv[]){
 		printf("\r\n");
 	}
 
-	printf("\r\n");
+	printf("\r\nweight matrix\r\n");
 	for(int d = 0; d < matrix_t2->size1; d++){
 		for(int e = 0; e < matrix_t2->size2; e++){
 			int f = gsl_matrix_get(matrix_t2, d, e);
@@ -101,9 +104,12 @@ int main(int argc, char* argv[]){
 * mac_count: total number of mac operations needed to multiply matrices - used to format operand table
 */
 void print_mac_sequence(int* subarray, int mac_count){
-	int padding = mac_count % 8;
-	int num_lines = mac_count/8;
+	int padding = mac_count % 8; //the final oprand group to be printed with less than 8 operand pairs
+	int num_lines = mac_count/8; //number of operand pair groups for each line of the table - each group with eight operand pairs
 	int i = 0;
+
+	//determines if there is a group of operands that needed to be printed of size less than 8
+	num_lines = (padding > 0) ? (num_lines + 1):num_lines;
 
 	//one line to be printed since less than eight instructions
 	if(mac_count < 8){
@@ -124,7 +130,7 @@ void print_mac_sequence(int* subarray, int mac_count){
 
 	else{
 		//for every line...
-		for(int i = 0; i < num_lines; i++){
+		for(int i = 0; i < num_lines+1; i++){
 
 			//the temp pointer points to eight pairs of mac operands ata time
 			int* temp = (subarray + (16*i));
