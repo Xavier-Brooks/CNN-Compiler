@@ -15,7 +15,7 @@ TODO's
   The Programs written thus far are produced on Linux machines and compiled with gcc, may need to remote into a UNIX server if your device is MAC or WINDOWS
     I believe there is a way to cross-compile Linux commands for mac and windows however the libraries we use may not be compatible for those systems
   
-  The command to use when compiling main.c as of right now is "gcc -o bin main.c -lgsl -lgslcbilas"
+  The command to use when compiling main.c as of right now is "gcc -o bin main.c -lgsl -lgslcblas"
   
   If your recieve the following error: "gsl/gsl_linalg.h" 
     try this command which helped me resolve it: "apt install libgsl0-dev"
